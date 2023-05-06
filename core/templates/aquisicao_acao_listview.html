@@ -1,0 +1,97 @@
+{% extends 'base_sistema.html' %}
+{% load static %}
+{% block content %}
+
+            <div class="col-10 container conteudo_tabela">
+                    <div class="row">
+                        <div class="col-10 titulo_listview"><b>Consulta de Aquisições</b></div>
+                    </div>
+                    <div class="text-center"><hr style="height:4px;border-width:0;color:gray;background-color:gray"></div>
+                    <div class="filtro_processo" align="center">
+                        <form method="post" action = "../consultaaquisicao">
+                            {% csrf_token %}
+                            <table style="border-collapse:separate; border-spacing:18px 10px ">
+                                    <tbody>
+                                            <tr>
+
+                                                    <!-- <td  align="right"><div class="form-horizontal"><b>Tipo de Locação:</b></div></td>
+                                                    <td  align="left"><select name="tipo_locacao" id="id_tipo_locacao">
+                                                    {% for tipolocacao in tiposlocacao %}
+                                                              <option value="{{ tipolocacao.id}}"> {{tipolocacao.descricao}}</option>
+                                                    {% endfor %}
+                                                              <option value="" selected>---------</option>
+                                                    </select></td>
+                                                    -->
+                                            </tr>
+                                            <tr>
+                                                <td align="right"><div class="form-horizontal"><b>Ação:</b></div></td>
+                                                <td align="left">
+                                                                <select name="acao" id="id_acao">
+                                                                    {% for acao in acoes %}
+                                                                        <option value="{{acao.id}}">{{ acao.nome }}</option>
+                                                                    {% endfor %}
+                                                                    <option value="" selected>---------</option>
+                                                                </select></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td align="right"><div class="form-horizontal"><b>Memorial:</b></div></td>
+                                                <td align="left"><select name="memorial"  id="id_memorial">
+                                                                 {% for memorial in memoriais %}
+                                                                     <option value="{{memorial.id}}">{{memorial.descricao}}</option>
+                                                                 {% endfor %}
+                                                                     <option value="" selected>---------</option>
+                                                                 </select></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="right"><div class="form-horizontal"><b>Status Geral:</b></div></td>
+                                                <td align="left"><select name="status_geral"  id="id_status_geral">
+                                                                 {% for status in statuses %}
+                                                                     <option value="{{status.id}}">{{status.descricao}}</option>
+                                                                 {% endfor %}
+                                                                     <option value="" selected>---------</option>
+                                                                 </select></td>
+                                            </tr>
+                                     </tbody>
+                            </table>
+                            <button type="submit"  class="btn btn-primary">Filtrar</button>
+                            </form>
+                    </div>
+
+
+                    <div class="text-center"><hr style="height:4px;border-width:0;color:gray;background-color:gray"></div>
+                            <table class="table table-bordered table-sm">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <!-- <th scope="col">Tipo de locação</th> -->
+                                        <th scope="col">Ação/Descrição</th>
+                                        <th scope="col">Memorial</th>
+                                        <th scope="col">Data da Solicitação</th>
+                                        <th scope="col">Status Geral</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for aquisicao in aquisicoes %}
+                                        <tr>
+                                            <td>{{ aquisicao.id }}</td>
+                                            <!--<td>{{ locacao.tipo_locacao }}</td>-->
+                                            <td> <strong><a href="../consultaumaaquisicao/{{aquisicao.pk}}">{{ aquisicao.acao }}</strong><br>
+                                                 Descrição: {{aquisicao.descricao}}</a>
+                                            </td>
+                                            <td> {{ aquisicao.memorial }}</td>
+                                            <td> {{ aquisicao.data_cadastro}} </td>
+                                            <td>{{ aquisicao.status_geral }}</td>
+                                            <td> <a href="../consultaumaaquisicao/{{aquisicao.pk}}"><img src="/static/img/visualizar.png"></a></td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                    </div>
+            </div>
+
+
+
+
+{% endblock %}

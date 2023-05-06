@@ -1,0 +1,31 @@
+{% extends 'base_sistema.html' %}
+{% load static %}
+
+{% block content %}
+        <div class="col-10 mr-auto w-100 clearfix">
+           <div class="container">
+               <div class="row">
+                  <div class="col-12" align="center">
+                       <font size="4" color="blue"><b>Solicitação de Locação</b></font><p></p>
+                  </div>
+               </div>
+               <div class="row" >
+                  <div class="col-12">
+                    <hr style="height:4px;border-width:0;color:gray;background-color:gray">
+                  </div>
+               </div>
+               <div class="row">
+                       <form method="post">
+                            {% csrf_token %}
+
+
+                                    <button type="submit" class="btn btn-primary">Salvar</button>
+                                    <button type="button" class="btn btn-warning">
+                                        <a href="{% url 'solicita' %}">Cancelar</a>
+                                    </button>
+
+                           {
+                        </form>
+               </div>
+        </div>
+{% endblock %}

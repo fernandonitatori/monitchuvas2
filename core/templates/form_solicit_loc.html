@@ -1,0 +1,302 @@
+{% extends 'base_sistema.html' %}
+{% load static %}
+{% block content %}
+        <div class="col-10 container conteudo_tabela">
+               <div class="col-12 titulo_listview">
+                       <div ><b>Solicitação de Locação</b></div>
+               </div>
+
+               <div class="row">
+                  <div class="col-12">
+                       <hr style="height:5px;border-width:0;color:gray;background-color:gray">
+                  </div>
+               </div>
+               <div class="filtro-processo row" align="center">
+                   <div class="col-12 filtro-processo" align="center">
+                        <form method="POST" autocomplete="off"  >
+                                {% csrf_token %}
+                                <table style="border-collapse:separate; border-spacing:20px 20px">
+                                    <tbody>
+                                            <tr>
+                                                <td></td>
+                                                <td>{% if messages %}
+                                                        {% for message in messages %}
+                                                            {%if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                                                                <div class="alert alert-danger" role-alert>{{message}}</div>
+                                                            {% endif %}
+                                                            {%if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                                                                <div class="alert alert-success" role-alert>{{message}}</div>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                    {% if form.errors %}
+                                                        {% for field in form %}
+                                                            {% if field.errors %}
+                                                                {% for erro in field.errors %}
+                                                                    <div class="alert alert-warning" role="alert">
+                                                                        {%if erro|stringformat:'s' == 'This field is required.' %}
+                                                                           {{ field.label_tag }} é obrigatório para o registro.
+                                                                        {% endif %}
+                                                                    </div>
+                                                                {% endfor %}
+                                                            {% endif %}
+                                                        {% endfor %}
+
+                                                    {% endif %}
+
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td  align="right"><div class="form-horizontal"><b>Tipo de Locação:</b></div></td>
+                                                <td  align="left"><select name="tipo_locacao"  id="tipo_locacao">
+                                                                      {% for tipoloc in tiposlocacao %}
+                                                                            <option value="{{tipoloc.id}}">{{tipoloc.descricao}}</option>
+                                                                      {% endfor %}
+                                                                      <option value="" selected >---------</option>
+                                                                 </select>
+
+                                                                 </td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td  align="right"><div class="form-horizontal"><b>Ação:</b></div></td>
+                                                <td  align="left"><select name="acao"  id="id_acao">
+                                                                 {% for acao in acoes %}
+                                                                        <option value="{{acao.id}}">{{acao.nome}}</option>
+                                                                 {% endfor %}
+                                                                     <option value="" selected >---------</option>
+                                                                 </select>
+                                                                 <a href="#ModalAcao" data-toggle="modal" class="tooltip-test" title="Adiciona Ação"><img src="/static/admin/img/icon-addlink.svg"></a>
+                                                     </td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td  align="right"><div class="form-horizontal"><b>Memorial:</b></div></td>
+                                                <td  align="left"><select name="memorial"  id="id_memorial">
+                                                                 {% for memorial in memoriais %}
+                                                                        <option value="{{memorial.id}}">{{memorial.descricao}}</option>
+                                                                 {% endfor %}
+                                                                     <option value="" selected >---------</option>
+                                                                 </select>
+                                                                 <a href="#ModalMemorial" data-toggle="modal" class="tooltip-test" title="Adiciona Memorial"><img src="/static/admin/img/icon-addlink.svg"></a>
+                                                     </td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td  align="right"><div class="form-horizontal"><b>Prazo:</b></div></td>
+                                                <td  align="left"><input type="text" name="prazo" id="prazo" size="10" maxlength="10" value="{{consultacompras.prazo}}" placeholder="Prazo em dias" required ></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="right"><div class="form-horizontal"><b>Data Cadastro:</b></div></td>
+                                                <td  align="left"><input type="date" name="data_cadastro" id="data_cadastro" size="10" maxlength="10" placeholder="dd/mm/aaaa"></td>
+                                            </tr>
+                                            <tr>
+                                                <td  align="right"><div class="form-horizontal"><b>Status:</b></div></td>
+                                                <td  align="left"><select name="status"  id="id_status">
+                                                                 {% for status in statuses %}
+                                                                     {% if status.tipo_status|stringformat:'s' == 'Solicitação' %}
+                                                                        {% if status.descricao|stringformat:'s' == 'Solicitação - Aguardando Cadastro de SC' %}
+                                                                            <option value="{{status.id}}">{{status.descricao}}</option>
+                                                                        {% endif %}
+                                                                     {% endif %}
+                                                                 {% endfor %}
+                                                                 </select>
+                                                     </td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td  align="right"><div class="form-horizontal"><b>Status Geral:</b></div></td>
+                                                <td  align="left"><select name="status_geral"  id="id_status_geral">
+                                                                 {% for status in statuses %}
+                                                                        {% if status.descricao|stringformat:'s' == 'Solicitação - Aguardando Cadastro de SC' %}
+                                                                            <option value="{{status.id}}">{{status.descricao}}</option>
+                                                                        {% endif %}
+                                                                 {% endfor %}
+                                                                 </select>
+                                                     </td>
+                                                <td></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td  align="right"><div class="form-horizontal"><b>Descrição:</b></div></td>
+                                                <td  align="left"><input type="text" name="descricao" id="descricao" size="150" maxlength="150" value="{{consultacompras.descricao}}" placeholder="Descrição da Locação" required ></td>
+                                                <td></td>
+                                            </tr>
+
+                                     </tbody>
+                                </table>
+                                <div class="grupo_botoes_form" align="center">
+
+                                            <button type="submit" class="btn btn-primary">Salvar</button>
+                                            <button type="button" class="btn btn-warning">
+                                                <a href="../sistema">Cancelar</a>
+                                            </button>
+
+                                </div>
+
+                        </form>
+                   </div>
+               </div>
+
+    <!-- Modal Ação -->
+           <div id="ModalAcao" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                       <div class="titulo_modal">Adicionar Ação</div>
+                  </div>
+                  <div class="modal-body">
+                        <form method="post" autocomplete="off" action="{% url 'add_acao' %}">
+                            {% csrf_token %}
+                            <table style="border-collapse:separate; border-spacing:20px 20px">
+                                <tbody>
+                                        <tr>
+                                            <td  align="right"><div class="form-horizontal"><b>Nome:</b></td>
+                                            <td  align="left"><input type="text" name="nome" id="id_nome" size="50" maxlength="50" placeholder="Nome da Ação"></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="right"><div class="form-horizontal"><b>Descrição:</b></div></td>
+                                            <td  align="left"><input type="text" name="descricao" id="id_descricao" size="50" maxlength="50" placeholder="Descrição da Ação"></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="right"><div class="form-horizontal"><b>Observações:</b></div></td>
+                                            <td  align="left"><input type="text" name="observacoes" id="id_observacoes" size="50" maxlength="50" placeholder="Observações"></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="right"><div class="form-horizontal"><b>Data Base:</b></div></td>
+                                            <td  align="left"><input type="date" name="data_base" id="data_base" size="10" maxlength="10" placeholder="dd/mm/aaaa"></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="right"><div class="form-horizontal"><b>Projeto:</b></div></td>
+                                            <td  align="left"><select name="projeto"  id="id_projeto">
+                                                                      {% for projeto in projetos %}
+                                                                             <option value="{{projeto.id}}">{{projeto.descricao}}</option>
+                                                                      {% endfor %}
+                                                                     <option value="" selected>---------</option>
+                                                                 </select>
+                                                                <a href="#ModalProjeto" data-toggle="modal" class="tooltip-test" title="Adiciona Projeto"><img src="/static/admin/img/icon-addlink.svg"></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="right"><div class="form-horizontal"><b>Linguagem:</b></div></td>
+                                            <td  align="left"><select name="linguagem"  id="id_linguagem">
+                                                                      {% for linguagem in linguagens %}
+                                                                             <option value="{{linguagem.id}}">{{linguagem.descricao}}</option>
+                                                                      {% endfor %}
+                                                                     <option value="" selected>---------</option>
+                                                                 </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="right"><div class="form-horizontal"><b>Local:</b></div></td>
+                                            <td  align="left"><select name="local"  id="id_local">
+                                                                      {% for local in locais %}
+                                                                             <option value="{{local.id}}">{{local.descricao}}</option>
+                                                                      {% endfor %}
+                                                                     <option value="" selected>---------</option>
+                                                                 </select>
+                                            </td>
+                                        </tr>
+                                 </tbody>
+                            </table>
+
+                            <div class="grupo_botoes_form" align="center">
+
+                                    <button type="submit" class="btn btn-primary">Salvar</button>
+                                    <button type="button" class="btn btn-warning" data-dismiss="modal">
+                                        <a href="">Cancelar</a>
+                                    </button>
+
+                            </div>
+                        </form>
+                  </div>
+                </div>
+              </div>
+           </div>
+
+           <!-- Modal Memorial -->
+           <div id="ModalMemorial" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+
+                <!-- Modal content-->
+                  <div class="modal-content">
+                      <div class="modal-header">
+                           <div class="titulo_modal">Adicionar Memorial</div>
+                      </div>
+                      <div class="modal-body">
+                            <form method="POST" autocomplete="off" action="{% url 'salvamemorial' %}" >
+                                {% csrf_token %}
+                                <table style="border-collapse:separate; border-spacing:20px 20px">
+                                    <tbody>
+                                            <tr>
+                                                <td  align="right"><div class="form-horizontal"><b>Descrição:</b></div></td>
+                                                <td  align="left"><input type="text" name="descricao" id="descricao" size="50" maxlength="50" placeholder="Descrição do Memorial"></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td  align="right"><div class="form-horizontal"><b>Data do Memorial:</b></div></td>
+                                                <td  align="left"><input type="date" name="data_memorial" id="data_memorial" maxlength="10" required ></td>
+                                                <td></td>
+                                            </tr>
+                                     </tbody>
+                                </table>
+                                <div class="grupo_botoes_form" align="center">
+
+                                            <button type="submit" class="btn btn-primary">Salvar</button>
+                                            <button type="button" class="btn btn-warning" data-dismiss="modal">
+                                                <a href="{% url 'sistema' %}">Cancelar</a>
+                                            </button>
+
+                                </div>
+
+                            </form>
+                      </div>
+                  </div>
+              </div>
+           </div>
+           <!-- Modal Projeto -->
+           <div id="ModalProjeto" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+
+                <!-- Modal content-->
+                  <div class="modal-content">
+                      <div class="modal-header">
+                           <div class="titulo_modal">Adicionar Projeto</div>
+                      </div>
+                      <div class="modal-body">
+                            <form method="POST" autocomplete="off" action="{% url 'salvaprojeto' %}" >
+                                {% csrf_token %}
+                                <table style="border-collapse:separate; border-spacing:20px 20px">
+                                    <tbody>
+                                            <tr>
+                                                <td  align="right"><div class="form-horizontal"><b>Descrição:</b></div></td>
+                                                <td  align="left"><input type="text" name="descricao" id="descricao" size="50" maxlength="50" placeholder="Descrição do Projeto"></td>
+                                                <td></td>
+                                            </tr>
+
+                                     </tbody>
+                                </table>
+                                <div class="grupo_botoes_form" align="center">
+
+                                            <button type="submit" class="btn btn-primary">Salvar</button>
+                                            <button type="button" class="btn btn-warning" data-dismiss="modal">
+                                                <a href="">Cancelar</a>
+                                            </button>
+
+                                </div>
+
+                            </form>
+                      </div>
+                  </div>
+              </div>
+           </div>
+           <!-- Fim do Modal Projeto -->
+        </div>
+{% endblock %}

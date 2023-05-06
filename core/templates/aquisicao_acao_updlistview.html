@@ -1,0 +1,80 @@
+{% extends 'base_sistema.html' %}
+{% load static %}
+{% block content %}
+
+            <div class="col-10 container conteudo_tabela">
+                <div class="row">
+                    <div class="col-10 titulo_listview"><b>Atualização de Processos de Aquisições</b></div>
+                </div>
+                    <div class="text-center"><hr style="height:4px;border-width:0;color:gray;background-color:gray"></div>
+                    <div class="filtro_processo" align="center">
+                            <table style="border-collapse:separate; border-spacing:18px 10px ">
+                                    <tbody>
+                                            <tr>
+                                                <!-- <td  align="right"><div class="form-horizontal"><b>Tipo de Locação:</b></div></td>
+                                                <td  align="left"><select name="tipo_locacao" required id="id_tipo_locacao">
+                                                                      <option value="" selected>---------</option>
+                                                                      <option value="1">Sonorização</option>
+                                                                      <option value="2">Iluminação</option>
+                                                </select></td>
+                                                -->
+                                            </tr>
+                                            <tr>
+                                                <td align="right"><div class="form-horizontal"><b>Ação:</b></div></td>
+                                                <td align="left"><select name="acao" required id="id_acao">
+                                                                    <option value="" selected>---------</option>
+                                                                    <option value="1">Show do Zé Alface</option>
+                                                                </select></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td align="right"><div class="form-horizontal"><b>Memorial:</b></div></td>
+                                                <td align="left"><select name="memorial" required id="id_memorial">
+                                                                     <option value="" selected>---------</option>
+                                                                     <option value="1">Teste de memorial</option>
+                                                                </select></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="right"><div class="form-horizontal"><b>Data de Solicitação:</b></div></td>
+                                                <td align="left"><div>
+                                                                        <input type="text" class="form-horizontal caixa_input" id="datainicio"> a <input type="text" class="form-horizontal caixa_input" id="datafim">
+                                                                </div></td>
+                                            </tr>
+                                     </tbody>
+                            </table>
+                            <button type="button" class="btn btn-primary">Filtrar</button>
+                    </div>
+                    <div class="text-center"><hr style="height:4px;border-width:0;color:gray;background-color:gray"></div>
+                            <table class="table table-bordered table-sm">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Tipo de locação</th>
+                                        <th scope="col">Ação</th>
+                                        <th scope="col">Memorial</th>
+                                        <th scope="col">Data e Hora da Solicitação</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for updlocacao in updlocacoes %}
+                                        <tr>
+                                            <td>{{ updlocacao.id }}</td>
+                                            <td>{{ updlocacao.tipo_locacao }}</td>
+                                            <td> <a href="../{{updlocacao.pk}}/consultalocacao">{{ updlocacao.acao }}</a></td>
+                                            <td> {{ updlocacao.memorial }}</td>
+                                            <td> {{ updlocacao.criado }} </td>
+                                            <td> {{ updlocacao.status }}</td>
+                                            <td> <a href="../{{updlocacao.pk}}/consultalocacao"><img src="/static/img/visualizar.png"></a></td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                </div>
+            </div>
+
+
+
+
+{% endblock %}

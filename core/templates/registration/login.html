@@ -1,0 +1,27 @@
+{% extends 'base_login.html' %}
+{% load static %}
+{% block content %}
+    <div class="login-header" align="center">
+
+    </div>
+    <div class="login-body" align="center">
+        <div class="col-3" align="center">
+            <form class="form-signin" method="post" autocomplete="off">
+                    {% csrf_token %}
+                    <img class="mb-4" src="{% static 'img/logo_sesc.png' %}" alt="" width="250" height="72">
+                    <div align="center"><p>Faça login para continuar.</p></div>
+
+                    <label for="username" class="sr-only">Usuário</label>
+                    <input type="text" id="username" name="username" class="form-control" placeholder="Informe seu usuário" required autofocus>
+
+                    <label for="password" class="sr-only">Senha</label>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Informe sua senha" required>
+
+                    <button class="btn btn-sm btn-primary" type="submit">Acessar</button>
+                    <p class="mt-5 mb-3 text-muted">&copy; {% now 'Y'%}</p>
+            </form>
+        </div>
+    </div>
+
+
+{% endblock %}

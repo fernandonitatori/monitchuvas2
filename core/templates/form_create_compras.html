@@ -1,0 +1,75 @@
+{% extends 'base_sistema.html' %}
+{% load bootstrap4 %}
+{% block content %}
+
+    <div class="col-10 ">
+
+           <div class="container">
+               <div class="row">
+                  <div class="col-12 titulo_cadastro">
+                       <div ><b>Cadastro de Compras-Locação</b></div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-12">
+                       <hr style="height:5px;border-width:0;color:gray;background-color:gray">
+                  </div>
+               </div>
+               <div class="conteudo_form row" align="center">
+                   <div class="col-12">
+                        <form method="post" autocomplete="off" >
+                            {% csrf_token %}
+                            <table style="border-collapse:separate; border-spacing:20px 20px">
+                                <tbody>
+                                        <tr>
+                                            <td  align="right"><div class="form-horizontal"><b>Descrição:</b></td>
+                                               <td  align="left">{{form.descricao}}</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="right"><div class="form-horizontal"><b>Número:</b></div></td>
+                                            <td align="left">{{form.numero}}</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="right"><div class="form-horizontal"><b>Data:</b></div></td>
+                                            <td align="left">{{form.data}}</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="right"><div class="form-horizontal"><b>Observações:</b></div></td>
+                                            <td align="left">{{form.observacoes}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td align="right"><div class="form-horizontal"><b>Locação:</b></div></td>
+                                            <td align="left">{{form.locacao}}<a href="#"><img src="/static/admin/img/icon-addlink.svg"></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="right"><div class="form-horizontal"><b>TRP:</b></div></td>
+                                            <td align="left">{{form.trp}}<a href="#"><img src="/static/admin/img/icon-addlink.svg"></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="right"><div class="form-horizontal"><b>Status:</b></div></td>
+                                            <td align="left">{{form.status}}<a href="#"><img src="/static/admin/img/icon-addlink.svg"></a></td>
+                                        </tr>
+                                 </tbody>
+                            </table>
+                   </div>
+                   <div class="col-12">
+                       <div class="grupo_botoes_form">
+                                {% buttons %}
+                                    <button type="submit" class="btn btn-primary">Salvar</button>
+                                    <button type="button" class="btn btn-warning">
+                                        <a href="{% url 'sistema' %}">Cancelar</a>
+                                    </button>
+                                {% endbuttons %}
+                        </form>
+                        </div>
+                   </div>
+
+
+               </div>
+           </div>
+
+    </div>
+{% endblock %}

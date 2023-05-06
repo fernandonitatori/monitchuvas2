@@ -1,0 +1,104 @@
+{% extends 'base_sistema.html' %}
+{% load bootstrap4 %}
+{% block content %}
+    <div class="col-10 container conteudo_tabela">
+
+           <div class="container">
+               <div class="row">
+                  <div class="col-12 titulo_cadastro">
+                       <div ><b>Cadastro de Ação</b></div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-12">
+                       <hr style="height:5px;border-width:0;color:gray;background-color:gray">
+                  </div>
+               </div>
+               <div class="filtro_processo row" align="center">
+                   <div class="col-12 filtro_processo">
+                        <form method="post" autocomplete="off" >
+                            {% csrf_token %}
+                            <table style="border-collapse:separate; border-spacing:20px 20px">
+                                <tbody>
+                                        <tr>
+                                            <td  align="right"><div class="form-horizontal"><b>Nome:</b></div></td>
+                                            <td  align="left"><input type="text" name="nome" id="nome" size="60" maxlength="60" placeholder="Nome da Ação" required ></td>
+
+                                            <!--
+                                            <td  align="right"><div class="form-horizontal"><b>Nome:</b></td>
+                                            <td  align="left">{{form.nome}}</td>
+                                            -->
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="right"><div class="form-horizontal"><b>Descrição:</b></div></td>
+                                            <!-- <td align="left">{{form.descricao}}</td>-->
+                                            <td  align="left"><input type="text" name="descricao" id="descricao" size="60" maxlength="60" placeholder="Descrição da Ação" required ></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="right"><div class="form-horizontal"><b>Observações:</b></div></td>
+                                            <!--<td align="left">{{form.observacoes}}</td>-->
+                                            <td  align="left"><input type="text" name="observacoes" id="observacoes" size="60" maxlength="60" placeholder="Observações sobre a Ação" ></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="right"><div class="form-horizontal"><b>Data Base:</b></div></td>
+                                            <!--<td align="left">{{form.data_base}}</td>-->
+                                            <td  align="left"><input type="date" name="data_base" id="data_base" size="10" maxlength="10" placeholder="Data base da Ação" required ></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="right"><div class="form-horizontal"><b>Projeto:</b></div></td>
+                                            <td align="left">{{form.projeto}}<a href="#"><img src="/static/admin/img/icon-addlink.svg"></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="right"><div class="form-horizontal"><b>Linguagem:</b></div></td>
+                                            <td align="left">{{form.linguagem}}<a href="#"><img src="/static/admin/img/icon-addlink.svg"></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="right"><div class="form-horizontal"><b>Local:</b></div></td>
+                                            <td align="left">{{form.local}}<a href="#"><img src="/static/admin/img/icon-addlink.svg"></a></td>
+                                        </tr>
+                                 </tbody>
+                            </table>
+
+                            <div class="grupo_botoes_form">
+                                {% buttons %}
+                                    <button type="submit" class="btn btn-primary">Salvar</button>
+                                    <button type="button" class="btn btn-warning">
+                                        <a href="{% url 'sistema' %}">Cancelar</a>
+                                    </button>
+                                {% endbuttons %}
+                            </div>
+                        </form>
+                   </div>
+                </div>
+           </div>
+            <div class="text-center"><hr style="height:4px;border-width:0;color:gray;background-color:gray"></div>
+                            <table class="table table-bordered table-sm">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Descrição</th>
+                                        <th scope="col">Observações</th>
+                                        <th scope="col">Projeto</th>
+                                        <th scope="col">Local</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for acao in acoes %}
+                                        <tr>
+                                            <td>{{ acao.id }}</td>
+                                            <td>{{ acao.descricao }}</td>
+                                            <td>{{ acao.observacoes }}</td>
+                                            <td>{{ acao.projeto }}</td>
+                                            <td>{{ acao.local }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+           </div>
+
+    </div>
+{% endblock %}

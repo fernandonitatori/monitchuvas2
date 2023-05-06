@@ -1,0 +1,122 @@
+{% extends 'base_sistema.html' %}
+{% load bootstrap4 %}
+{% block content %}
+
+    <div class="col-10 container conteudo_tabela">
+
+           <div class="container">
+               <div class="row">
+                  <div class="col-12 titulo_cadastro">
+                       <div ><b>Cadastro de Fornecedores</b></div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-12">
+                       <hr style="height:5px;border-width:0;color:gray;background-color:gray">
+                  </div>
+               </div>
+               <div class="filtro_processo row" align="center">
+                   <div class="col-12 filtro_processo" align="center">
+                        <form method="post" autocomplete="off" >
+                            {% csrf_token %}
+                            <table style="border-collapse:separate; border-spacing:20px 20px">
+                                <tbody>
+                                        <tr>
+                                            <td></td>
+                                            <td>{% if messages %}
+                                                        {% for message in messages %}
+                                                            {%if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                                                                <div class="alert alert-danger" role-alert>{{message}}</div>
+                                                            {% endif %}
+                                                            {%if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                                                                <div class="alert alert-success" role-alert>{{message}}</div>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                    {% if form.errors %}
+                                                        {% for field in form %}
+                                                            {% if field.errors %}
+                                                                {% for erro in field.errors %}
+                                                                    <div class="alert alert-warning" role="alert">
+                                                                        {%if erro|stringformat:'s' == 'This field is required.' %}
+                                                                           {{ field.label_tag }} é obrigatório para o registro.
+                                                                        {% endif %}
+                                                                    </div>
+                                                                {% endfor %}
+                                                            {% endif %}
+                                                        {% endfor %}
+
+                                                    {% endif %}
+
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td  align="right"><div class="form-horizontal"><b>Nome:</b></div></td>
+                                            <td  align="left"><input type="text" name="nome" id="id_nome" size="60" maxlength="60" placeholder="Nome do Fornecedor" required ></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td  align="right"><div class="form-horizontal"><b>CNPJ:</b></div></td>
+                                            <td  align="left"><input type="text" name="cnpj" id="id_cnpj" size="60" maxlength="60" placeholder="CNPJ do Fornecedor" required ></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td  align="right"><div class="form-horizontal"><b>Site:</b></div></td>
+                                            <td  align="left"><input type="text" name="site" id="id_site" size="60" maxlength="60" placeholder="Site do Fornecedor" required ></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td  align="right"><div class="form-horizontal"><b>Observações:</b></div></td>
+                                            <td  align="left"><input type="text" name="observacoes" id="id_observacoes" size="60" maxlength="60" placeholder="Observações" required ></td>
+                                            <td></td>
+                                        </tr>
+
+
+                                 </tbody>
+                            </table>
+
+                            <div class="grupo_botoes_form">
+                                {% buttons %}
+                                    <button type="submit" class="btn btn-primary">Salvar</button>
+                                    <button type="button" class="btn btn-warning">
+                                        <a href="{% url 'sistema' %}">Cancelar</a>
+                                    </button>
+                                {% endbuttons %}
+                            </div>
+                        </form>
+
+                   </div>
+
+
+               </div>
+           </div>
+            <div class="text-center"><hr style="height:4px;border-width:0;color:gray;background-color:gray"></div>
+                            <table class="table table-bordered table-sm">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Nome</th>
+                                        <th scope="col">CNPJ</th>
+                                        <th scope="col">Site</th>
+                                        <th scope="col">Observações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for fornec in fornecedores %}
+                                        <tr>
+                                            <td>{{ fornec.id }}</td>
+                                            <td>{{ fornec.nome }}</td>
+                                            <td>{{ fornec.cnpj }}</td>
+                                            <td>{{ fornec.site }} </td>
+                                            <td>{{ fornec.observacoes }}</td>
+
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+            </div>
+
+
+    </div>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends 'base_sistema.html' %}
+{% load bootstrap4 %}
+{% block content %}
+    <div class="col-10 container conteudo_tabela">
+
+           <div class="container">
+               <div class="row">
+                  <div class="col-12 titulo_cadastro">
+                       <div ><b>Cadastro de Status</b></div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-12">
+                       <hr style="height:5px;border-width:0;color:gray;background-color:gray">
+                  </div>
+               </div>
+               <div class="filtro_processo row" align="center">
+                   <div class="col-12 filtro_processo" align="center" >
+                        <form method="post" autocomplete="off" >
+                            {% csrf_token %}
+                            <table style="border-collapse:separate; border-spacing:20px 20px">
+                                <tbody>
+                                    <tr>
+                                        <td  align="right"><div class="form-horizontal"><b>Tipo de Status:</b></div></td>
+                                                <td  align="left"><select name="tipo_status"  id="id_tipo_status">
+                                                                      {% for tipostatus in tiposstatuses %}
+                                                                            <option value="{{tipostatus.id}}">{{tipostatus.descricao}}</option>
+                                                                      {% endfor %}
+                                                                      <option value="" selected >---------</option>
+                                                                 </select>
+                                                </td>
+                                                <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td  align="right"><div class="form-horizontal"><b>Descrição:</b></div></td>
+                                        <td  align="left"><input type="text" name="descricao" id="id_descricao" size="60" maxlength="60" placeholder="Descrição do Status" required ></td>
+                                        <td></td>
+                                    </tr>
+
+                                 </tbody>
+                            </table>
+                            <div class="grupo_botoes_form">
+                                    {% buttons %}
+                                        <button type="submit" class="btn btn-primary">Salvar</button>
+                                        <button type="button" class="btn btn-warning">
+                                            <a href="{% url 'sistema' %}">Cancelar</a>
+                                        </button>
+                                    {% endbuttons %}
+                            </div>
+                        </form>
+                    </div>
+               </div>
+           </div>
+           <div class="text-center"><hr style="height:4px;border-width:0;color:gray;background-color:gray"></div>
+                            <table class="table table-bordered table-sm">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Tipo de Status</th>
+                                        <th scope="col">Descrição</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for status in statuses %}
+                                        <tr>
+                                            <td>{{ status.id }}</td>
+                                            <td>{{ status.tipo_status }}</td>
+                                            <td>{{ status.descricao }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+           </div>
+    </div>
+{% endblock %}

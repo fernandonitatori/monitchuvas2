@@ -1,0 +1,139 @@
+{% extends 'base_sistema.html' %}
+{% load bootstrap4 %}
+{% block content %}
+
+    <div class="col-10 container conteudo_tabela">
+
+           <div class="container">
+               <div class="row">
+                  <div class="col-12 titulo_cadastro">
+                       <div ><b>Cadastro de Licitações</b></div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-12">
+                       <hr style="height:5px;border-width:0;color:gray;background-color:gray">
+                  </div>
+               </div>
+               <div class="filtro_processo row" align="center">
+                   <div class="col-12 filtro_processo" align="center">
+                        <form method="post" autocomplete="off" >
+                            {% csrf_token %}
+                            <table style="border-collapse:separate; border-spacing:20px 20px">
+                                <tbody>
+                                        <tr>
+                                            <td></td>
+                                            <td>{% if messages %}
+                                                        {% for message in messages %}
+                                                            {%if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                                                                <div class="alert alert-danger" role-alert>{{message}}</div>
+                                                            {% endif %}
+                                                            {%if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                                                                <div class="alert alert-success" role-alert>{{message}}</div>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                    {% if form.errors %}
+                                                        {% for field in form %}
+                                                            {% if field.errors %}
+                                                                {% for erro in field.errors %}
+                                                                    <div class="alert alert-warning" role="alert">
+                                                                        {%if erro|stringformat:'s' == 'This field is required.' %}
+                                                                           {{ field.label_tag }} é obrigatório para o registro.
+                                                                        {% endif %}
+                                                                    </div>
+                                                                {% endfor %}
+                                                            {% endif %}
+                                                        {% endfor %}
+
+                                                    {% endif %}
+
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td  align="right"><div class="form-horizontal"><b>Data de abertura:</b></div></td>
+                                            <td  align="left"><input type="date" name="dataabertura" id="id_dataabertura" size="10" maxlength="10" placeholder="Data de abertura" required ></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td  align="right"><div class="form-horizontal"><b>Data do Pregão:</b></div></td>
+                                            <td  align="left"><input type="date" name="datapregao" id="id_datapregao" size="10" maxlength="10" placeholder="Data do pregão" required ></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td  align="right"><div class="form-horizontal"><b>Data Assinatura:</b></div></td>
+                                            <td  align="left"><input type="date" name="dataassinatura" id="id_dataassinatura" size="10" maxlength="10" placeholder="Data de Assinatura" required ></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td  align="right"><div class="form-horizontal"><b>Data de Homologação:</b></div></td>
+                                            <td  align="left"><input type="date" name="datahomologacao" id="id_datahomologacao" size="10" maxlength="10" placeholder="Data da Homologação" required ></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td  align="right"><div class="form-horizontal"><b>Vencedor:</b></div></td>
+                                            <td  align="left"><input type="text" name="vencedor" id="id_vencedor" size="60" maxlength="60" placeholder="Vencedor" required ></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td  align="right"><div class="form-horizontal"><b>Valor:</b></div></td>
+                                            <td  align="left"><input type="text" name="valor" id="id_valor" size="10" maxlength="10" placeholder="Valor" required ></td>
+                                            <td></td>
+                                        </tr>
+
+
+
+                                 </tbody>
+                            </table>
+
+
+                            <div class="grupo_botoes_form">
+                                {% buttons %}
+                                    <button type="submit" class="btn btn-primary">Salvar</button>
+                                    <button type="button" class="btn btn-warning">
+                                        <a href="{% url 'sistema' %}">Cancelar</a>
+                                    </button>
+                                {% endbuttons %}
+                            </div>
+                        </form>
+
+                   </div>
+
+
+               </div>
+           </div>
+            <div class="text-center"><hr style="height:4px;border-width:0;color:gray;background-color:gray"></div>
+                            <table class="table table-bordered table-sm">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Data de abertura </th>
+                                        <th scope="col">Data do pregão</th>
+                                        <th scope="col">Data de Assinatura</th>
+                                        <th scope="col">Data de Homologação</th>
+                                        <th scope="col">Vencedor</th>
+                                        <th scope="col">Valor</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for licit in licitacoes %}
+                                        <tr>
+                                            <td>{{ licit.id }}</td>
+                                            <td>{{ licit.dataabertura }}</td>
+                                            <td>{{ licit.datapregao }}</td>
+                                            <td>{{ licit.dataassinatura }} </td>
+                                            <td>{{ licit.datahomologacao }}</td>
+                                            <td>{{ licit.vencedor }}</td>
+                                            <td>{{ licit.valor }}</td>
+
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+            </div>
+
+
+
+    </div>
+{% endblock %}
